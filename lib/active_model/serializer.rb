@@ -20,7 +20,6 @@ module ActiveModel
     SERIALIZABLE_HASH_VALID_KEYS = [:only, :except, :methods, :include, :root].freeze
     extend ActiveSupport::Autoload
     eager_autoload do
-      autoload :Adapter
       autoload :Null
       autoload :Attribute
       autoload :Link
@@ -49,16 +48,6 @@ module ActiveModel
         resource_class = resource_or_class.class == Class ? resource_or_class : resource_or_class.class
         options.fetch(:serializer) { get_serializer_for(resource_class, options[:namespace]) }
       end
-    end
-
-    # @see ActiveModelSerializers::Adapter.lookup
-    # Deprecated
-    def self.adapter
-      ActiveModelSerializers::Adapter.lookup(config.adapter)
-    end
-    class << self
-      extend ActiveModelSerializers::Deprecate
-      deprecate :adapter, 'ActiveModelSerializers::Adapter.configured_adapter'
     end
 
     # @api private

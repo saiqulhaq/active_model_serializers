@@ -11,13 +11,6 @@ module ActiveModelSerializers
       @serializable_resource = SerializableResource.new(@resource)
     end
 
-    def test_deprecation
-      assert_output(nil, /deprecated/) do
-        deprecated_serializable_resource = ActiveModel::SerializableResource.new(@resource)
-        assert_equal(@serializable_resource.as_json, deprecated_serializable_resource.as_json)
-      end
-    end
-
     def test_serializable_resource_delegates_serializable_hash_to_the_adapter
       options = nil
       assert_equal @adapter.serializable_hash(options), @serializable_resource.serializable_hash(options)

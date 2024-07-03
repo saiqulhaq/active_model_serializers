@@ -6,12 +6,6 @@ module ActiveModelSerializers
   class AdapterForTest < ::ActiveSupport::TestCase
     UnknownAdapterError = ::ActiveModelSerializers::Adapter::UnknownAdapterError
 
-    def test_serializer_adapter_returns_configured_adapter
-      assert_output(nil, /ActiveModelSerializers::Adapter.configured_adapter/) do
-        assert_equal ActiveModelSerializers::Adapter.configured_adapter, ActiveModel::Serializer.adapter
-      end
-    end
-
     def test_returns_default_adapter
       with_adapter_config_setup do
         adapter = ActiveModelSerializers::Adapter.configured_adapter

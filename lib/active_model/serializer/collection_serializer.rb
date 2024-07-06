@@ -88,8 +88,7 @@ module ActiveModel
         end
 
         if serializer_class.nil?
-          ActiveModelSerializers.logger.debug "No serializer found for resource: #{resource.inspect}"
-          throw :no_serializer
+          raise ::ActiveModelSerializers::NoSerializerError
         else
           serializer_class.new(resource, options.except(:serializer))
         end

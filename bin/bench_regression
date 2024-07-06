@@ -3,6 +3,7 @@ require 'fileutils'
 require 'pathname'
 require 'shellwords'
 require 'English'
+require 'pry'
 
 ############################
 # USAGE
@@ -76,9 +77,12 @@ class BenchRegression
     end
 
     def vendor_gem(gem_name)
-      directory_name = `bundle exec gem unpack benchmark-ips --target=#{E_TMP_DIR}`[/benchmark-ips.+\d/]
-      gem_paths << File.join(TMP_DIR, directory_name)
-      gem_require_paths << File.join(TMP_DIR_NAME, directory_name, 'lib')
+      # unpact to tmp dir
+      `bundle exec gem unpack benchmark-ips --target=#{E_TMP_DIR}`
+      # get directory name in tmp dir
+      directory_name = Dir[File.join(TMP_DIR, 'benchmark-ips-*')].first
+      gem_paths << directory_name
+      gem_require_paths << File.join(directory_name, 'lib')
       housekeeping { remove_vendored_gems }
     end
 

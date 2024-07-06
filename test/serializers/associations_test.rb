@@ -55,13 +55,9 @@ module ActiveModel
           attributes :id
           has_many :tags
         end
-        post_serializer_class.new(@post).associations.each do |association|
-          key = association.key
-          serializer = association.lazy_association.serializer
-
-          assert_equal :tags, key
-          assert_nil serializer
-          assert_equal [{ id: 'tagid', name: '#hashtagged' }].to_json, association.virtual_value.to_json
+        # expect to raise error
+        assert_raises(::ActiveModelSerializers::NoSerializerError) do
+          post_serializer_class.new(@post).as_json
         end
       end
 

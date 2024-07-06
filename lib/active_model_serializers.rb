@@ -22,6 +22,10 @@ module ActiveModelSerializers
   end
 
   class << self; attr_accessor :logger; end
+  # @api private
+  # We use this error to raise when a serializer is not found for a resource.
+  class NoSerializerError < StandardError; end
+
   self.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT))
 
   def self.config

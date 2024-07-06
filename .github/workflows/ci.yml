@@ -32,17 +32,10 @@ jobs:
           # Old Rubies and Rails
           - ruby-version: '2.5'
             rails-version: '5.1'
-            bundler: '1'
+            bundler: '2'
           - ruby-version: '2.4'
             rails-version: '5.0'
-            bundler: '1'
-          - ruby-version: '2.4'
-            rails-version: '4.2'
-            bundler: '1'
-          # Failing with a stack trace in active support
-          # - ruby-version: '2.4'
-          #   rails-version: '4.1'
-          #   bundler: '1'
+            bundler: '2'
 
     continue-on-error: "${{ endsWith(matrix.ruby-version, 'head') }}"
 

@@ -5,6 +5,8 @@ ENV['RAILS_ENV'] = 'test'
 require 'bundler/setup'
 
 require 'pry'
+require 'pry-stack_explorer'
+require 'pry-doc'
 require 'timecop'
 require 'rails'
 require 'action_controller'
@@ -33,7 +35,14 @@ FileUtils.mkdir_p(File.expand_path('../../tmp/cache', __FILE__))
 gem 'minitest'
 require 'minitest'
 require 'minitest/autorun'
+require 'minitest/focus'
+require 'minitest/reporters'
+
 Minitest.backtrace_filter = Minitest::BacktraceFilter.new
+
+Minitest::Reporters.use! [
+  Minitest::Reporters::ProgressReporter.new,
+]
 
 module TestHelper
   module_function

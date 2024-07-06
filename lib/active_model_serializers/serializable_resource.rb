@@ -4,6 +4,9 @@ require 'set'
 
 module ActiveModelSerializers
   class SerializableResource
+    # this ADAPTER_OPTION_KEYS become adapter_opts
+    # and the rest of the options become serializer_opts
+    # see the initialize method
     ADAPTER_OPTION_KEYS = Set.new([:include, :fields, :adapter, :meta, :meta_key, :links, :serialization_context, :key_transform])
     include ActiveModelSerializers::Logging
 
@@ -33,18 +36,25 @@ module ActiveModelSerializers
     end
 
     # NOTE: if no adapter is available, returns the resource itself. (i.e. adapter is a no-op)
+    # The global adapter configuration is set on [`ActiveModelSerializers.config`](configuration_options.md).
+    # It should be set at initialization.
+    # So we read adapter_opts[:adapter] or the default adapter from the
+    # ActiveModelSerializers.config.adapter
     def adapter
-      @adapter ||= find_adapter
+      @adapter ||= begin
+                     if serializer?
+                       if serializer ==  ActiveModel::Serializer::CollectionSerializer && serializer_opts[:each_serializer].blank?
+                         resource
+                       else
+                         ActiveModelSerializers::Adapter.create(serializer_instance, adapter_opts)
+                       end
+                     else
+                       resource
+                     end
+                   end
     end
-    alias adapter_instance adapter
 
-    def find_adapter
-      return resource unless serializer?
-      adapter = catch :no_serializer do
-        ActiveModelSerializers::Adapter.create(serializer_instance, adapter_opts)
-      end
-      adapter || resource
-    end
+    alias adapter_instance adapter
 
     def serializer_instance
       @serializer_instance ||= serializer.new(resource, serializer_opts)

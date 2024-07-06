@@ -15,7 +15,7 @@ eval_gemfile local_gemfile if File.readable?(local_gemfile)
 # Specify your gem's dependencies in active_model_serializers.gemspec
 gemspec
 
-version = ENV['RAILS_VERSION'] || '6.1'
+version = ENV['RAILS_VERSION'] || '7.1'
 
 if version == 'master'
   gem 'rack', github: 'rack/rack'
@@ -81,7 +81,11 @@ group :test do
   end
   gem 'codeclimate-test-reporter', require: false
   gem 'm', '~> 1.5'
+  gem 'minitest-reporters'
+  gem 'minitest-focus'
   gem 'pry', '>= 0.10'
+  gem 'pry-doc'
+  gem 'pry-stack_explorer'
   gem 'byebug', '~> 8.2' if RUBY_VERSION < '2.2'
 end
 
@@ -100,4 +104,9 @@ group :development, :test do
     gem 'rails-html-sanitizer', '< 1.6.0'
   end
   gem 'yard', require: false
+end
+
+group :development do
+  gem 'guard'
+  gem 'guard-minitest'
 end

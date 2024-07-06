@@ -141,16 +141,9 @@ module ActiveModelSerializers
           end
           serializer = post_serializer_class.new(@post)
           adapter = ActiveModelSerializers::Adapter::JsonApi.new(serializer)
-
-          assert_equal({
-                         data: {
-                           id: '1',
-                           type: 'posts',
-                           relationships: {
-                             tags: { data: [@tag.as_json] }
-                           }
-                         }
-                       }, adapter.serializable_hash)
+          assert_error(::ActiveModelSerializers::NoSerializerError) do
+            adapter.serializable_hash
+          end
         end
 
         def test_has_many_with_virtual_value

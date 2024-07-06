@@ -84,10 +84,7 @@ module ActiveModel
       end
 
       def instantiate_collection_serializer(object)
-        serializer = catch(:no_serializer) do
-          instantiate_serializer(object)
-        end
-        serializer
+        instantiate_serializer(object)
       end
 
       def namespace

@@ -69,6 +69,9 @@ namespace :test do
   end
 end
 
+desc 'Run all checks and tests'
+task all: [:"yard:doc", :test, :isolated, :rubocop]
+
 if ENV['RAILS_VERSION'].to_s > '4.0' && RUBY_ENGINE == 'ruby'
   task default: [:isolated, :test, :rubocop]
 else
